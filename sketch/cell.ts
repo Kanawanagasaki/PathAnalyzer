@@ -49,14 +49,14 @@ class Cell {
         }
 
         if (this.IsCastle)
-            text("🏰", width / 2, height / 2);
+            text("🏰", width / 2, height / 2 + 8);
         else if (this.IsRock)
-            text("🪨", width / 2, height / 2);
+            text("🪨", width / 2, height / 2 + 8);
         else if (this.IsSpawner) {
             if (this.PreviousCell === null)
-                text("🏚️", width / 2, height / 2);
+                text("🏚️", width / 2, height / 2 + 8);
             else
-                text("🏠", width / 2, height / 2);
+                text("🏠", width / 2, height / 2 + 8);
         }
         pop();
     }

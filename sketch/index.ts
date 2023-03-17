@@ -11,11 +11,14 @@ var isMousePressedOnEmpty = true;
 function setup() {
     grid = new Grid();
 
-    createCanvas(windowWidth, windowHeight);
+    const rendered = createCanvas(windowWidth, windowHeight);
+    rendered.style("font-family", "emoji");
+
     noFill();
     strokeWeight(2);
     stroke("#A5A5A5");
     textAlign("center", "center");
+    textFont("Inspiration");
 
     castleButton = createButton("🏰");
     castleButton.style("fontSize", "20px");

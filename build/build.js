@@ -34,14 +34,14 @@ var Cell = (function () {
             pop();
         }
         if (this.IsCastle)
-            text("🏰", width / 2, height / 2);
+            text("🏰", width / 2, height / 2 + 8);
         else if (this.IsRock)
-            text("🪨", width / 2, height / 2);
+            text("🪨", width / 2, height / 2 + 8);
         else if (this.IsSpawner) {
             if (this.PreviousCell === null)
-                text("🏚️", width / 2, height / 2);
+                text("🏚️", width / 2, height / 2 + 8);
             else
-                text("🏠", width / 2, height / 2);
+                text("🏠", width / 2, height / 2 + 8);
         }
         pop();
     };
@@ -264,11 +264,13 @@ var prevCell = { x: -1, y: -1 };
 var isMousePressedOnEmpty = true;
 function setup() {
     grid = new Grid();
-    createCanvas(windowWidth, windowHeight);
+    var rendered = createCanvas(windowWidth, windowHeight);
+    rendered.style("font-family", "emoji");
     noFill();
     strokeWeight(2);
     stroke("#A5A5A5");
     textAlign("center", "center");
+    textFont("Inspiration");
     castleButton = createButton("🏰");
     castleButton.style("fontSize", "20px");
     castleButton.style("cursor", "pointer");
