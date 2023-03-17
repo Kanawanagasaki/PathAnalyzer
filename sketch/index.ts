@@ -2,6 +2,8 @@ enum ESelection {
     Castle, Rock, Enemy, Spawner
 }
 
+var CASTLE_IMG: p5.Image, ROCK_IMG: p5.Image, ENEMY_IMG: p5.Image, HOUSE_IMG: p5.Image, HOUSE_DERELICT_IMG: p5.Image;
+
 var grid: Grid, gridWidth: number, gridHeight: number;
 var castleButton: p5.Element, rockButton: p5.Element, enemyButton: p5.Element, spawnerButton: p5.Element, clearButton: p5.Element;
 var selection: ESelection = ESelection.Enemy;
@@ -9,6 +11,12 @@ var prevCell: { x: number, y: number } = { x: -1, y: -1 };
 var isMousePressedOnEmpty = true;
 
 function setup() {
+    CASTLE_IMG = loadImage("assets/castle.png");
+    ROCK_IMG = loadImage("assets/rock.png");
+    ENEMY_IMG = loadImage("assets/enemy.png");
+    HOUSE_IMG = loadImage("assets/house.png");
+    HOUSE_DERELICT_IMG = loadImage("assets/derelict-house.png");
+
     grid = new Grid();
 
     const rendered = createCanvas(windowWidth, windowHeight);
@@ -20,35 +28,32 @@ function setup() {
     textAlign("center", "center");
     textFont("Inspiration");
 
-    castleButton = createButton("🏰");
-    castleButton.style("fontSize", "20px");
-    castleButton.style("cursor", "pointer");
+    castleButton = makeButton("castle");
     castleButton.mouseClicked(() => selection = ESelection.Castle);
 
-    rockButton = createButton("🪨");
-    rockButton.style("fontSize", "20px");
-    rockButton.style("cursor", "pointer");
+    rockButton = makeButton("rock");
     rockButton.mouseClicked(() => selection = ESelection.Rock);
 
-    enemyButton = createButton("😈");
-    enemyButton.style("fontSize", "20px");
-    enemyButton.style("cursor", "pointer");
+    enemyButton = makeButton("enemy");
     enemyButton.mouseClicked(() => selection = ESelection.Enemy);
 
-    spawnerButton = createButton("🏠");
-    spawnerButton.style("fontSize", "20px");
-    spawnerButton.style("cursor", "pointer");
+    spawnerButton = makeButton("house");
     spawnerButton.mouseClicked(() => selection = ESelection.Spawner);
 
-    clearButton = createButton("🔄");
-    clearButton.style("fontSize", "20px");
-    clearButton.style("cursor", "pointer");
+    clearButton = makeButton("refresh");
     clearButton.mouseClicked(() => {
         grid.Clear();
         grid.Analyze();
     });
 
     onResize();
+}
+
+function makeButton(icon: string) {
+    const btn = createButton(`<img src='assets/${icon}.png' style='height: 24px;'/>`);
+    btn.style("padding", "2px");
+    btn.style("cursor", "pointer");
+    return btn;
 }
 
 function windowResized() {

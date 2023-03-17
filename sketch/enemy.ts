@@ -44,7 +44,7 @@ class Enemy {
         if (this.MovingTo === null) {
             push();
             translate(this.MovingFrom.X * cellWidth, this.MovingFrom.Y * cellHeight);
-            text("😈", cellWidth / 2, cellHeight / 2);
+            image(ENEMY_IMG, 2, 2, cellWidth - 4, cellHeight - 4);
             pop();
             return;
         }
@@ -57,7 +57,7 @@ class Enemy {
         const y = yFrom + (yTo - yFrom) * delta / 1000;
         push();
         translate(x, y);
-        text("😈", cellWidth / 2, cellHeight / 2);
+        image(ENEMY_IMG, 2, 2, cellWidth - 4, cellHeight - 4);
         pop();
     }
 }

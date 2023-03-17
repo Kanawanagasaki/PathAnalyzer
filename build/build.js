@@ -34,14 +34,14 @@ var Cell = (function () {
             pop();
         }
         if (this.IsCastle)
-            text("🏰", width / 2, height / 2 + 8);
+            image(CASTLE_IMG, 2, 2, width - 4, height - 4);
         else if (this.IsRock)
-            text("🪨", width / 2, height / 2 + 8);
+            image(ROCK_IMG, 2, 2, width - 4, height - 4);
         else if (this.IsSpawner) {
             if (this.PreviousCell === null)
-                text("🏚️", width / 2, height / 2 + 8);
+                image(HOUSE_DERELICT_IMG, 2, 2, width - 4, height - 4);
             else
-                text("🏠", width / 2, height / 2 + 8);
+                image(HOUSE_IMG, 2, 2, width - 4, height - 4);
         }
         pop();
     };
@@ -84,7 +84,7 @@ var Enemy = (function () {
         if (this.MovingTo === null) {
             push();
             translate(this.MovingFrom.X * cellWidth, this.MovingFrom.Y * cellHeight);
-            text("😈", cellWidth / 2, cellHeight / 2);
+            image(ENEMY_IMG, 2, 2, cellWidth - 4, cellHeight - 4);
             pop();
             return;
         }
@@ -96,7 +96,7 @@ var Enemy = (function () {
         var y = yFrom + (yTo - yFrom) * delta / 1000;
         push();
         translate(x, y);
-        text("😈", cellWidth / 2, cellHeight / 2);
+        image(ENEMY_IMG, 2, 2, cellWidth - 4, cellHeight - 4);
         pop();
     };
     Enemy.SPEED = 2;
@@ -257,12 +257,18 @@ var ESelection;
     ESelection[ESelection["Enemy"] = 2] = "Enemy";
     ESelection[ESelection["Spawner"] = 3] = "Spawner";
 })(ESelection || (ESelection = {}));
+var CASTLE_IMG, ROCK_IMG, ENEMY_IMG, HOUSE_IMG, HOUSE_DERELICT_IMG;
 var grid, gridWidth, gridHeight;
 var castleButton, rockButton, enemyButton, spawnerButton, clearButton;
 var selection = ESelection.Enemy;
 var prevCell = { x: -1, y: -1 };
 var isMousePressedOnEmpty = true;
 function setup() {
+    CASTLE_IMG = loadImage("assets/castle.png");
+    ROCK_IMG = loadImage("assets/rock.png");
+    ENEMY_IMG = loadImage("assets/enemy.png");
+    HOUSE_IMG = loadImage("assets/house.png");
+    HOUSE_DERELICT_IMG = loadImage("assets/derelict-house.png");
     grid = new Grid();
     var rendered = createCanvas(windowWidth, windowHeight);
     rendered.style("font-family", "emoji");
@@ -271,30 +277,26 @@ function setup() {
     stroke("#A5A5A5");
     textAlign("center", "center");
     textFont("Inspiration");
-    castleButton = createButton("🏰");
-    castleButton.style("fontSize", "20px");
-    castleButton.style("cursor", "pointer");
+    castleButton = makeButton("castle");
     castleButton.mouseClicked(function () { return selection = ESelection.Castle; });
-    rockButton = createButton("🪨");
-    rockButton.style("fontSize", "20px");
-    rockButton.style("cursor", "pointer");
+    rockButton = makeButton("rock");
     rockButton.mouseClicked(function () { return selection = ESelection.Rock; });
-    enemyButton = createButton("😈");
-    enemyButton.style("fontSize", "20px");
-    enemyButton.style("cursor", "pointer");
+    enemyButton = makeButton("enemy");
     enemyButton.mouseClicked(function () { return selection = ESelection.Enemy; });
-    spawnerButton = createButton("🏠");
-    spawnerButton.style("fontSize", "20px");
-    spawnerButton.style("cursor", "pointer");
+    spawnerButton = makeButton("house");
     spawnerButton.mouseClicked(function () { return selection = ESelection.Spawner; });
-    clearButton = createButton("🔄");
-    clearButton.style("fontSize", "20px");
-    clearButton.style("cursor", "pointer");
+    clearButton = makeButton("refresh");
     clearButton.mouseClicked(function () {
         grid.Clear();
         grid.Analyze();
     });
     onResize();
+}
+function makeButton(icon) {
+    var btn = createButton("<img src='assets/" + icon + ".png' style='height: 24px;'/>");
+    btn.style("padding", "2px");
+    btn.style("cursor", "pointer");
+    return btn;
 }
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
